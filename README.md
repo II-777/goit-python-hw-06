@@ -10,7 +10,7 @@ Tested on: Linux pop-os 6.2.6-76060206-generic
 - [Description](#description)
 - [Features](#features)
 - [Prerequisites](#prerequisites)
-- [Supported File Types](#supported_file_types)
+- [Supported_File_Types](#supported_file_types)
 - [Customizaton](#customization)
 - [Usage](#usage)
 - [Example](#example)
