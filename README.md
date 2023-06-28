@@ -10,7 +10,7 @@ Tested on: Linux pop-os 6.2.6-76060206-generic
 - [Description](#description)
 - [Usage](#usage)
 - [Installation](#installation)
-- [License](#license)
+- [Disclaimer](#disclaimer)
 
 ## Description
 
