@@ -78,7 +78,7 @@ To sort files in the directory /home/user1/Desktop/Unsorted, run the following c
 
 ```shell
 python file_sorter.py /home/user1/Desktop/Unsorted
-``` 
+```
 
 ## Installation
 
