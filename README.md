@@ -3,6 +3,8 @@
 
 A Python program to sort files in a target directory based on their extensions.
 
+Tested on: Linux pop-os 6.2.6-76060206-generic
+
 ## Table of Contents
 
 - [Description](#description)
@@ -43,6 +45,30 @@ Replace username and repo with your GitHub username and the repository name, res
 
 Alternatively, you can directly download the file_sorter.py file from the repository.
 
-## License
+
+
+## Disclaimer
+
+**Please note that the use of this code is at your own risk.**
+
+The code provided in this repository is for educational and informational purposes only. It is not intended to be a production-ready or fully tested solution. While efforts have been made to ensure the accuracy and reliability of the code, there is no guarantee that it is error-free or suitable for your specific needs.
+
+**No Warranty**
+
+The code is provided "as is" without any warranty, express or implied. This includes but is not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement. The author(s) and/or contributors of this repository disclaim any warranty and accept no liability for damages or losses arising from the use or misuse of the code.
+
+**Use at Your Own Risk**
+
+You acknowledge and agree that you will be solely responsible for any consequences that arise from using the code. The author(s) and/or contributors of this repository shall not be held liable for any direct, indirect, incidental, special, or consequential damages or losses resulting from the use of the code.
+
+**No Liability**
+
+The author(s) of this repository accept no liability for any damages or losses, whether direct, indirect, incidental, special, or consequential, arising from the use or misuse of the code. This includes but is not limited to damages or losses caused by errors, inaccuracies, omissions, or any other defects in the code.
+
+It is recommended to thoroughly review and test the code before using it in any production environment. You should adapt and modify the code according to your own requirements and follow best practices to ensure security and reliability.
+
+By using this code, you signify your acceptance of this disclaimer. If you do not agree with these terms, you should refrain from using the code.
+
+**License**
 
 This project is licensed under the MIT License.
