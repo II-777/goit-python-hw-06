@@ -23,9 +23,9 @@ The File Sorter is a Python program that recursively scans a target directory to
 3. Open a terminal and navigate to the directory containing the `sort.py` file.
 4. Run the following command:
 
-   ```bash
-   python file_sorter.py TARGET_DIR/
-   ```
+```bash
+python file_sorter.py TARGET_DIR/
+```
 
 Replace TARGET_DIR/ with the path to your target directory that you want to sort.
 
