@@ -24,7 +24,7 @@ The File Sorter is a Python program that recursively scans a target directory to
 4. Run the following command:
 
 ```bash
-python file_sorter.py TARGET_DIR/
+python sort.py TARGET_DIR/
 ```
 
 Replace TARGET_DIR/ with the path to your target directory that you want to sort.
@@ -38,7 +38,7 @@ Replace TARGET_DIR/ with the path to your target directory that you want to sort
 Clone this repository:
 
 ```bash
-git clone https://github.com/username/repo.git
+git clone https://github.com/II-777/goit-python-hw-06.git
 ```
 
 Replace username and repo with your GitHub username and the repository name, respectively.
