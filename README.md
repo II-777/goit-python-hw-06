@@ -39,12 +39,11 @@ Clone this repository:
 
 ```bash
 git clone https://github.com/username/repo.git
-    ```
+```
 
 Replace username and repo with your GitHub username and the repository name, respectively.
 
 Alternatively, you can directly download the file_sorter.py file from the repository.
-
 
 
 ## Disclaimer
