@@ -16,6 +16,41 @@ Tested on: Linux pop-os 6.2.6-76060206-generic
 
 The File Sorter is a Python program that recursively scans a target directory to find files and categorizes them into different directories based on their extensions. It supports various file types such as videos, pictures, documents, music, archives, notes, and ISO images. The program uses a set of predefined file extensions to determine the category of each file.
 
+## Features
+
+- Automatic file organization: The program scans the target directory and automatically sorts files into different categories based on their file extensions.
+- Customizable file categories: The supported file categories and their associated extensions can be easily modified to fit your needs.
+- Transliteration support: The program can handle filenames with Cyrillic symbols and transliterate them into Latin symbols.
+- Duplicate file handling: When moving files, the program checks for duplicate filenames in the destination directory and appends a unique number to avoid overwriting existing files.
+- Logging: The program creates a log file with timestamped information about the sorting process, including the original and renamed file paths.
+
+## Prerequisites
+
+- Python 3.6 or above
+- pathlib library
+- shutil library
+- sys library
+- re library
+
+## Supported File Categories
+
+The program categorizes files into the following categories based on their extensions:
+
+- Videos: MP4, AVI, MKV, MOV, WMV, FLV, WEBM, MPEG, MPG, 3GP
+- Pictures: JPG, JPEG, PNG, GIF, BMP, SVG, WEBP, TIF, TIFF, ICO
+- Documents: DOC, DOCX, PDF, RTF, ODT, ODS, ODP, PPT, PPTX, XLS, XLSX, CSV, XML, HTML, HTM, TEX
+- Music: MP3, WAV, WMA, OGG, FLAC, AAC, AMR, M4A, M3U, MID
+- Archives: ZIP, 7Z, TAR, GZ, BZ2, XZ, TGZ, TBZ2
+- Notes: '', MD, TXT,
+- Images: ISO, IMG
+
+Files with extensions not listed above will be categorized as "other".
+
+## Customization
+
+You can customize the file categories and their associated extensions by modifying the EXT_BY_TYPE dictionary in the script. Add or remove file extensions as needed to suit your requirements.
+Example
+
 ## Usage
 
 1. Ensure you have Python installed on your system.
@@ -29,9 +64,16 @@ python sort.py TARGET_DIR/
 
 Replace TARGET_DIR/ with the path to your target directory that you want to sort.
 
-5. The program will recursively scan the target directory, categorize the files, and move them to their respective directories based on their extensions.
 
-    A log file named sort.log will be created in the target directory, containing the details of the sorting process.
+The program will recursively scan the target directory, categorize the files, and move them to their respective directories based on their extensions. A log file named `sort.log` will be created in the target directory, containing the details of the sorting process.
+
+## Example:
+
+To sort files in the directory /home/user1/Desktop/Unsorted, run the following command:
+
+```shell
+python file_sorter.py /home/user1/Desktop/Unsorted
+``` 
 
 ## Installation
 
