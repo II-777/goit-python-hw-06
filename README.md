@@ -8,7 +8,12 @@ Tested on: Linux pop-os 6.2.6-76060206-generic
 ## Table of Contents
 
 - [Description](#description)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Supported File Types](#supported file types)
+- [Customizaton](#customization)
 - [Usage](#usage)
+- [Example](#example)
 - [Installation](#installation)
 - [Disclaimer](#disclaimer)
 
@@ -32,7 +37,7 @@ The File Sorter is a Python program that recursively scans a target directory to
 - sys library
 - re library
 
-## Supported File Categories
+## Supported File Types
 
 The program categorizes files into the following categories based on their extensions:
 
