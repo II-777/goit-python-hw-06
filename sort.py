@@ -37,15 +37,16 @@ RUNTIME_DATA = {
     'extensions_found': {'known': set(), 'unknown': set()},
     'total_files_found': 0,
     'total_directories_removed': 0,
+    'total_archives_unpacked': 0,
     'time_started': '',
     'time_finished': ''
 }
 
 def create_log() -> None:
     '''Create a log file with the current timestamp and target directory information.'''
-    with LOG_FILE_PATH.open('w') as file:
-        file.write(f"{get_time()}\nSorting files in: {TARGET_DIR}\n")
-        file.write(f"#------------------------\n")
+    with LOG_FILE_PATH.open('w') as log:
+        log.write(f"{get_time()}\nSorting files in: {TARGET_DIR}\n")
+        log.write(f"#------------------------\n")
     if not LOG_FILE_PATH.exists():
         print(f'[-] Error. Failed to create sort.log at "{LOG_FILE_PATH}"')
 
@@ -132,42 +133,53 @@ def move_files(TARGET_DIR: Path ) -> None:
         for file in files:
             original_path = file
             new_file_path = destination_path.joinpath(normalize(file.name))
-            if file_type == "archive":
+            try:
                 new_file_path = rename_duplicates(new_file_path)
-                archive = file.rename(new_file_path)
-                extraction_dir = destination_path.joinpath(new_file_path.stem)
-                if not extraction_dir.exists():
-                    extraction_dir.mkdir()
-                try:
-                    shutil.unpack_archive(archive, extraction_dir)
-                except Exception as e:
-                    print(f'[!] Warning: Failed to unpack "{archive.name}": {e}')
-                else:
-                    archive.unlink()
-            else:
-                try:
-                    new_file_path = rename_duplicates(new_file_path)
-                    file.rename(new_file_path)
-                    with open(LOG_FILE_PATH, "a") as file:
-                       file.write(f"Original: {original_path}\n")
-                       file.write(f"Renamed : {new_file_path}\n")
-                       file.write(f"#------------------------\n")
-                except Exception as e:
-                    print(f'[-] Error: Failed to move "{new_file_path}": {e}')
+                file.rename(new_file_path)
+                with open(LOG_FILE_PATH, "a") as log:
+                   log.write(f"Original: {original_path}\n")
+                   log.write(f"Renamed : {new_file_path}\n")
+                   log.write(f"#------------------------\n")
+            except Exception as e:
+                print(f'[-] Error: Failed to move "{new_file_path}": {e}')
+
+def handle_archives(archives_dir: Path) -> None:
+    '''Handle the extraction of files within archives directory.'''
+    unpacked_count = 0
+
+    for file in archives_dir.iterdir():
+        if file.is_file():
+            archive_name = file.stem
+            extraction_destination = archives_dir.joinpath(archive_name)
+            if not extraction_destination.exists():
+                extraction_destination.mkdir()
+            try:
+                shutil.unpack_archive(str(file), str(extraction_destination))
+                file.unlink()
+                unpacked_count += 1
+                with open(LOG_FILE_PATH, "a") as log:
+                    log.write(f"Archive Unpacked: {file.name} -> {extraction_destination}\n")
+                    log.write(f"#------------------------\n")
+            except Exception as e:
+                file.rmdir()
+                with open(LOG_FILE_PATH, "a") as log:
+                    log.write(f'[!] Warning: Failed to unpack "{file.name}": {e}\n')
+                    log.write(f"#------------------------\n")
+            RUNTIME_DATA['total_archives_unpacked'] = unpacked_count
 
 def purge_empty(source_TARGET_DIR: TARGET_DIR) -> None:
     '''Remove empty directories in the target directory.'''
     TARGET_DIR_list = dir_scan(source_TARGET_DIR)
     TARGET_DIR_list.reverse()
     total_dirs_removed = 0
-
+ 
     for TARGET_DIR in TARGET_DIR_list:
         if TARGET_DIR.exists() and TARGET_DIR.is_dir and not any(TARGET_DIR.glob("*")):
-            try:
-                TARGET_DIR.rmdir()
-                total_dirs_removed += 1
-            except Exception as e:
-                print(f'[-] Error: Failed to remove directory "{TARGET_DIR}". {e}')
+             try:
+                 TARGET_DIR.rmdir()
+                 total_dirs_removed += 1
+             except Exception as e:
+                 print(f'[-] Error: Failed to remove directory "{TARGET_DIR}". {e}')
     RUNTIME_DATA["total_directories_removed"] = total_dirs_removed
 
 def get_time() -> str:
@@ -178,16 +190,18 @@ def get_time() -> str:
 
 def process_stats() -> None:
     '''Log and display useful runtime stats.'''
-    with LOG_FILE_PATH.open('a') as file:
-        file.write(f"Files count   -> {RUNTIME_DATA['total_files_found']}\n")
-        file.write(f"Dirs sorted   -> {RUNTIME_DATA['total_directories_removed']}\n")
-        file.write(f"Started       -> {RUNTIME_DATA['time_started']}\n")
-        file.write(f"Finished      -> {RUNTIME_DATA['time_finished']}\n")
+    with LOG_FILE_PATH.open('a') as log:
+        log.write(f"Files count       -> {RUNTIME_DATA['total_files_found']}\n")
+        log.write(f"Dirs sorted       -> {RUNTIME_DATA['total_directories_removed']}\n")
+        log.write(f"Unpacked archives -> {RUNTIME_DATA['total_archives_unpacked']}\n")
+        log.write(f"Started           -> {RUNTIME_DATA['time_started']}\n")
+        log.write(f"Finished          -> {RUNTIME_DATA['time_finished']}\n")
 
-    print(f"Files count   -> {RUNTIME_DATA['total_files_found']}")
-    print(f"Dirs sorted   -> {RUNTIME_DATA['total_directories_removed']}")
-    print(f"Started       -> {RUNTIME_DATA['time_started']}")
-    print(f"Finished      -> {RUNTIME_DATA['time_finished']}")
+    print(f"Files count       -> {RUNTIME_DATA['total_files_found']}")
+    print(f"Dirs sorted       -> {RUNTIME_DATA['total_directories_removed']}")
+    print(f"Unpacked archives -> {RUNTIME_DATA['total_archives_unpacked']}\n")
+    print(f"Started           -> {RUNTIME_DATA['time_started']}")
+    print(f"Finished          -> {RUNTIME_DATA['time_finished']}")
     print("[+] Success: All operations competed!")
 
 def main():
@@ -200,6 +214,7 @@ def main():
     dir_scan(TARGET_DIR)
     extension_sort(RUNTIME_DATA["files_found"])
     move_files(Path(TARGET_DIR))
+    handle_archives(TARGET_DIR.joinpath("archives"))
     purge_empty(Path(TARGET_DIR))
     RUNTIME_DATA["time_finished"] = get_time()
     process_stats()
@@ -208,7 +223,7 @@ if __name__ == "__main__":
     '''Entry point of the program. Contains pre-execution checks for validity of the input.'''
     # Get TARGET_DIR via user input, check if target dir exists
     if len(sys.argv) == 2:
-        TARGET_DIR = sys.argv[1]
+        TARGET_DIR = Path(sys.argv[1])
         if not Path(TARGET_DIR).exists():
             print(f'[-] Error. TARGET_DIR does not exist: "{TARGET_DIR}"')
             exit(1)
