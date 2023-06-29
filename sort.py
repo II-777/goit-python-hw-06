@@ -6,7 +6,7 @@ import re
 
 # Globals
 TARGET_DIR = ''
-LOG_FILE_NAME = 'sort1.log'
+LOG_FILE_NAME = 'sort.log'
 SEPARATOR_SYMBOL = '_'
 
 # Supported file extension by sorted by type
