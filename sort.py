@@ -191,7 +191,7 @@ def process_stats() -> None:
     print("[+] Success: All operations competed!")
 
 def main():
-    """Main execution flow."""
+    '''Main execution flow.'''
     global TARGET_DIR, LOG_FILE_PATH
     RUNTIME_DATA["time_started"] = get_time()
     LOG_FILE_PATH = Path(TARGET_DIR).joinpath(LOG_FILE_NAME)
