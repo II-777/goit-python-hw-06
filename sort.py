@@ -6,6 +6,7 @@ import re
 
 # Globals
 TARGET_DIR = ''
+LOG_FILE_NAME = 'sort1.log'
 SEPARATOR_SYMBOL = '_'
 
 # Supported file extension by sorted by type
@@ -42,13 +43,11 @@ RUNTIME_DATA = {
 
 def create_log() -> None:
     '''Create a log file with the current timestamp and target directory information.'''
-    global TARGET_DIR, LOG_FILE
-    LOG_FILE = Path(TARGET_DIR) / 'sort.log'
-    with LOG_FILE.open('w') as file:
+    with LOG_FILE_PATH.open('w') as file:
         file.write(f"{get_time()}\nSorting files in: {TARGET_DIR}\n")
         file.write(f"#------------------------\n")
-    if not LOG_FILE.exists():
-        print(f'[-] Error. Failed to create sort.log at "{LOG_FILE}"')
+    if not LOG_FILE_PATH.exists():
+        print(f'[-] Error. Failed to create sort.log at "{LOG_FILE_PATH}"')
 
 def dir_scan(TARGET_DIR: Path) -> list:
     '''Recursively scan the target directory to find all directories.'''
@@ -65,7 +64,7 @@ def file_scan(TARGET_DIR: Path) -> list:
     path = Path(TARGET_DIR)
     files = []
     for item in path.iterdir():
-        if item.name == "sort.log":
+        if item.name == LOG_FILE_NAME:
             continue
         if item.is_file():
             files.append(item)
@@ -149,7 +148,7 @@ def move_files(TARGET_DIR: Path ) -> None:
                 try:
                     new_file_path = rename_duplicates(new_file_path)
                     file.rename(new_file_path)
-                    with open(LOG_FILE, "a") as file:
+                    with open(LOG_FILE_PATH, "a") as file:
                        file.write(f"Original: {original_path}\n")
                        file.write(f"Renamed : {new_file_path}\n")
                        file.write(f"#------------------------\n")
@@ -179,8 +178,7 @@ def get_time() -> str:
 
 def process_stats() -> None:
     '''Log and display useful runtime stats.'''
-    LOG_FILE = Path(TARGET_DIR) / 'sort.log'
-    with LOG_FILE.open('a') as file:
+    with LOG_FILE_PATH.open('a') as file:
         file.write(f"Files count   -> {RUNTIME_DATA['total_files_found']}\n")
         file.write(f"Dirs sorted   -> {RUNTIME_DATA['total_directories_removed']}\n")
         file.write(f"Started       -> {RUNTIME_DATA['time_started']}\n")
@@ -194,7 +192,9 @@ def process_stats() -> None:
 
 def main():
     """Main execution flow."""
+    global TARGET_DIR, LOG_FILE_PATH
     RUNTIME_DATA["time_started"] = get_time()
+    LOG_FILE_PATH = Path(TARGET_DIR).joinpath(LOG_FILE_NAME)
     create_log()
     file_scan(TARGET_DIR)
     dir_scan(TARGET_DIR)
@@ -204,7 +204,6 @@ def main():
     RUNTIME_DATA["time_finished"] = get_time()
     process_stats()
 
-#
 if __name__ == "__main__":
     '''Entry point of the program. Contains pre-execution checks for validity of the input.'''
     # Get TARGET_DIR via user input, check if target dir exists
