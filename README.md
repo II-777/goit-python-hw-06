@@ -1,94 +1,63 @@
 # goit-python-hw-06
 
-#  Завдання
-## Функція normalize:
+## Task
 
-1. Здійснює транслітерацію кириличного алфавіту на латинський.
-2. Замінює всі символи крім латинських літер, цифр на '_'.
+Many people have a folder on their desktop called something like "To be sorted". As a rule, you never get around to actually sorting this folder.
 
-Вимоги до функції normalize:
+We are going to write a script that will sort files in such folder. In the end, you will be able to customize this program for yourself and it will execute a customized script that meets your needs. To do this, our application will check the file extension and, depending on the file extension, decide which category to assign the file to.
 
-+ приймає на вхід рядок та повертає рядок;
-+ здійснює транслітерацію кириличних символів на латиницю;
-+ замінює всі символи, крім літер латинського алфавіту та цифр, на символ '_';
-+ транслітерація може не відповідати стандарту, але бути читабельною;
-+ великі літери залишаються великими, а маленькі — маленькими після транслітерації.
+The script accepts one argument at runtime - the name of the folder in which it will sort. Suppose the program file is called sort.py, then to sort the /user/Desktop/Junk folder, you need to run the script with the python command sort.py /user/Desktop/Junk
 
-## Умови для обробки:
+	- In order to successfully cope with this task, you must put the logic for processing the folder in a separate function.
+	- For the script to be able to go to any nesting depth, the folder processing function must recursively call itself when it encounters a nested folder.
 
-- зображення переносимо до папки images
-- документи переносимо до папки documents
-- аудіо файли переносимо до audio
-- відео файли до video
-- архіви розпаковуються та їх вміст переноситься до папки archives
+The script should go through the folder specified during the call and sort all files into groups:
 
-# Критерії приймання завдання
+- images ('JPEG', 'PNG', 'JPG', 'SVG');
+- video files ('AVI', 'MP4', 'MOV', 'MKV');
+- documents ('DOC', 'DOCX', 'TXT', 'PDF', 'XLSX', 'PPTX');
+- music ('MP3', 'OGG', 'WAV', 'AMR');
+- archives ('ZIP', 'GZ', 'TAR');
+- unknown extensions.
 
-+всі файли та папки перейменовуються за допомогою функції normalize.
-+розширення файлів не змінюється після перейменування.
--порожні папки видаляються
--скрипт ігнорує папки archives, video, audio, documents, images;
--розпакований вміст архіву переноситься до папки archives у підпапку, названу так само, як і архів, але без розширення в кінці;
--файли, розширення яких невідомі, залишаються без зміни.
+You can expand and add to this list if you want.
 
-## Завдання
+## The results should include:
 
-У багатьох на робочому столі є папка, яка називається якось на кшталт "Розібрати". Як правило, розібрати цю папку руки ніколи так і не доходять.
+- A list of files in each category (music, video, photos, etc.)
+- A list of all extensions known to the script that are found in the target folder.
+- A list of all extensions that are unknown to the script.
 
-Ми з вами напишемо скрипт, який розбере цю папку. Зрештою ви зможете налаштувати цю програму під себе і вона виконуватиме індивідуальний сценарій, що відповідає вашим потребам. Для цього наш застосунок буде перевіряти розширення файлу (останні символи в імені файлу, як правило, після крапки) і, залежно від розширення, приймати рішення, до якої категорії віднести цей файл.
+Then you need to add functions that will be responsible for processing each type of file.
 
-Скрипт приймає один аргумент під час запуску — це ім'я папки, в якій він буде здійснювати сортування. Припустимо, що файл з програмою називається sort.py, тоді, щоб відсортувати папку /user/Desktop/Мотлох, потрібно запустити скрипт командою python sort.py /user/Desktop/Мотлох
+In addition, all files and folders need to be renamed, removing all characters from the name that cause problems. To do this, apply the normalize function to file names. It is important to understand that you need to rename files in a way that does not change the file extension.
 
-	- Для того щоб успішно впоратися з цим завданням, ви повинні винести логіку обробки папки в окрему функцію.
-	- Щоб скрипт міг пройти на будь-яку глибину вкладеності, функція обробки папок повинна рекурсивно викликати сама себе, коли їй зустрічаються вкладенні папки.
+## The normalize function:
 
-Скрипт повинен проходити по вказаній під час виклику папці та сортирувати всі файли за групами:
+1. Converts the Cyrillic alphabet to the Latin alphabet.
+2. Replaces all characters except Latin letters and numbers with '_'.
 
-- зображення ('JPEG', 'PNG', 'JPG', 'SVG');
-- відео файли ('AVI', 'MP4', 'MOV', 'MKV');
-- документи ('DOC', 'DOCX', 'TXT', 'PDF', 'XLSX', 'PPTX');
-- музика ('MP3', 'OGG', 'WAV', 'AMR');
-- архіви ('ZIP', 'GZ', 'TAR');
-- невідомі розширення.
+Requirements for the normalize function:
 
-Ви можете розширити та доповнити цей список, якщо хочете.
+- takes a string as input and returns a string;
+- transliteration of Cyrillic characters into Latin;
+- replaces all characters except Latin letters and numbers with the '_' character;
+- the transliteration may not meet the standard, but be readable;
+- uppercase letters remain uppercase and lowercase letters remain lowercase after transliteration.
 
-В результатах роботи повинні бути:
+## Conditions for processing:
 
-- Список файлів в кожній категорії (музика, відео, фото та ін.)
-- Перелік усіх відомих скрипту розширень, які зустрічаються в цільовій папці.
-- Перелік всіх розширень, які скрипту невідомі.
+- images are moved to the images folder
+- documents are moved to the documents folder
+- audio files are moved to audio folder
+- video files to video folder
+- archives are unpacked and their contents are transferred to the archives folder
 
-Потім необхідно додати функції, які будуть відповідати за обробку кожного типу файлів.
+# Job acceptance criteria
 
-Крім того, всі файли та папки потрібно перейменувати, видаливши із назви всі символи, що призводять до проблем. Для цього потрібно застосувати до імен файлів функцію normalize. Варто розуміти, що перейменувати файли потрібно так, щоб не змінити розширення файлів.
-
-# Функція normalize:
-
-1. Здійснює транслітерацію кириличного алфавіту на латинський.
-2. Замінює всі символи крім латинських літер, цифр на '_'.
-
-Вимоги до функції normalize:
-
-- приймає на вхід рядок та повертає рядок;
-- здійснює транслітерацію кириличних символів на латиницю;
-- замінює всі символи, крім літер латинського алфавіту та цифр, на символ '_';
-- транслітерація може не відповідати стандарту, але бути читабельною;
-- великі літери залишаються великими, а маленькі — маленькими після транслітерації.
-
-## Умови для обробки:
-
-- зображення переносимо до папки images
-- документи переносимо до папки documents
-- аудіо файли переносимо до audio
-- відео файли до video
-- архіви розпаковуються та їх вміст переноситься до папки archives
-
-# Критерії приймання завдання
-
--всі файли та папки перейменовуються за допомогою функції normalize.
--розширення файлів не змінюється після перейменування.
--порожні папки видаляються
--скрипт ігнорує папки archives, video, audio, documents, images;
--розпакований вміст архіву переноситься до папки archives у підпапку, названу так само, як і архів, але без розширення в кінці;
--файли, розширення яких невідомі, залишаються без зміни.
+- All files and folders are renamed using the normalize function.
+- The file extensions are not changed after renaming.
+- empty folders are deleted
+- The script ignores the archives, video, audio, documents, images folders;
+- unpacked archive content is moved to the archives folder in a subfolder named the same as the archive, but without the extension at the end;
+- Files with unknown extensions are left unchanged.
