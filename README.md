@@ -8,8 +8,8 @@ We are going to write a script that will sort files in such folder. In the end, 
 
 The script accepts one argument at runtime - the name of the folder in which it will sort. Suppose the program file is called sort.py, then to sort the /user/Desktop/Junk folder, you need to run the script with the python command sort.py /user/Desktop/Junk
 
-	- In order to successfully cope with this task, you must put the logic for processing the folder in a separate function.
-	- For the script to be able to go to any nesting depth, the folder processing function must recursively call itself when it encounters a nested folder.
+- In order to successfully cope with this task, you must put the logic for processing the folder in a separate function.
+- For the script to be able to go to any nesting depth, the folder processing function must recursively call itself when it encounters a nested folder.
 
 The script should go through the folder specified during the call and sort all files into groups:
 
@@ -53,7 +53,7 @@ Requirements for the normalize function:
 - video files to video folder
 - archives are unpacked and their contents are transferred to the archives folder
 
-# Job acceptance criteria
+## Job acceptance criteria
 
 - All files and folders are renamed using the normalize function.
 - The file extensions are not changed after renaming.
