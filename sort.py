@@ -84,7 +84,8 @@ def normalize(name: str) -> str:
     normalized_name = re.sub(r'[_-]+', SEPARATOR_SYMBOL, normalized_name) # Replace multiple consecutive separators with the custom separator
     normalized_name = normalized_name.strip(SEPARATOR_SYMBOL)             # Remove leading and trailing separators
     normalized_filename = f"{normalized_name}{file_ext}"                  # Concatenate the normalized name and file extension
-    return normalized_filename                                            # Preserve original letter case
+    return normalized_filename.lower()                                    # Use only lowercase letters
+    #return normalized_filename                                            # Preserve original letter case
 
 def rename_duplicates(path: Path) -> Path:
     '''Rename files from the target directory, taking into account existing filename duplicates in the destination folder.'''
@@ -146,6 +147,9 @@ def move_files(TARGET_DIR: Path ) -> None:
 def handle_archives(archives_dir: Path) -> None:
     '''Handle the extraction of files within archives directory.'''
     unpacked_count = 0
+    if not Path(TARGET_DIR.joinpath("archives")).exists():
+     print('[!] no archives found')
+     return '[!] no archives found'
 
     for file in archives_dir.iterdir():
         if file.is_file():
@@ -161,10 +165,11 @@ def handle_archives(archives_dir: Path) -> None:
                     log.write(f"Archive Unpacked: {file.name} -> {extraction_destination}\n")
                     log.write(f"#------------------------\n")
             except Exception as e:
-                file.rmdir()
                 with open(LOG_FILE_PATH, "a") as log:
                     log.write(f'[!] Warning: Failed to unpack "{file.name}": {e}\n')
                     log.write(f"#------------------------\n")
+                print('[!] Warning: Failed to unpack an archive')
+                return '[!] Warning: Failed to unpack an archive'
             RUNTIME_DATA['total_archives_unpacked'] = unpacked_count
 
 def purge_empty(source_TARGET_DIR: TARGET_DIR) -> None:
@@ -172,7 +177,7 @@ def purge_empty(source_TARGET_DIR: TARGET_DIR) -> None:
     TARGET_DIR_list = dir_scan(source_TARGET_DIR)
     TARGET_DIR_list.reverse()
     total_dirs_removed = 0
- 
+
     for TARGET_DIR in TARGET_DIR_list:
         if TARGET_DIR.exists() and TARGET_DIR.is_dir and not any(TARGET_DIR.glob("*")):
              try:
